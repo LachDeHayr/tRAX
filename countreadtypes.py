@@ -216,13 +216,13 @@ def counttypereads(bamfile, samplename,trnainfo, trnaloci, trnalist,maturenames,
                         if fragtype == "Whole":
                             
                             trnawholecounts[currsample][currbed] += 1
-                        elif fragtype == "Fiveprime-rf":
+                        elif fragtype == "Fiveprimetf":
                             trnafiverfcounts[currsample][currbed] += 1
-                        elif fragtype == "Fiveprime-half":
+                        elif fragtype == "Fiveprimehalf":
                             trnafivehalfcounts[currsample][currbed] += 1
-                        elif fragtype == "Threeprime-rf":
+                        elif fragtype == "Threeprimetf":
                             trnathreerfcounts[currsample][currbed] += 1
-                        elif fragtype == "Threeprime-half":
+                        elif fragtype == "Threeprimehalf":
                             trnathreehalfcounts[currsample][currbed] += 1
                         elif fragtype == "Trailer":
                             trnatrailercounts[currsample][currbed] += 1
@@ -409,11 +409,11 @@ def printtypefile(countfile,samples, sampledata,allcounts,trnalist, trnaloci, be
             
             if countfrags:
                 print  >>countfile, "tRNA_wholecounts\t"+"\t".join(str(trnawholecounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
-                print  >>countfile, "tRNA_fiveprimerf\t"+"\t".join(str(trnafiverfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
+                print  >>countfile, "tRNA_fiveprimetf\t"+"\t".join(str(trnafivetfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
                 print  >>countfile, "tRNA_fiveprimehalf\t"+"\t".join(str(trnafivehalfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
-                print  >>countfile, "tRNA_threeprimerf\t"+"\t".join(str(trnathreerfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
+                print  >>countfile, "tRNA_threeprimetf\t"+"\t".join(str(trnathreetfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
                 print  >>countfile, "tRNA_threeprimehalf\t"+"\t".join(str(trnathreehalfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
-                print  >>countfile, "tRNA_other\t"+"\t".join(str((trnacounts[currsample][currbed] - (trnathreerfcounts[currsample][currbed] + trnathreehalfcounts[currsample][currbed] + trnafiverfcounts[currsample][currbed] + trnafivehalfcounts[currsample][currbed] + trnawholecounts[currsample][currbed]))/sizefactor[currsample]) for currsample in samples)
+                print  >>countfile, "tRNA_other\t"+"\t".join(str((trnacounts[currsample][currbed] - (trnathreetfcounts[currsample][currbed] + trnathreehalfcounts[currsample][currbed] + trnafivetfcounts[currsample][currbed] + trnafivehalfcounts[currsample][currbed] + trnawholecounts[currsample][currbed]))/sizefactor[currsample]) for currsample in samples)
                 print  >>countfile, "tRNA_antisense\t"+"\t".join(str(trnaantisense[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
 
                 
@@ -613,8 +613,8 @@ def main(**argdict):
     
     
     wholetrnas = dict()
-    fiverffrags = dict()
-    threerffrags = dict()
+    fivetffrags = dict()
+    threertfrags = dict()
     fivehalffrags = dict()
     threehalffrags = dict ()
     trailerfrags = dict()
@@ -855,8 +855,8 @@ def oldmain(**argdict):
     emblcounts = defaultdict(lambda: defaultdict(int))
     trnacounts = defaultdict(lambda: defaultdict(int))
     trnawholecounts = defaultdict(lambda: defaultdict(int))
-    trnafiverfcounts = defaultdict(lambda: defaultdict(int))
-    trnathreerfcounts = defaultdict(lambda: defaultdict(int))
+    trnafivetfcounts = defaultdict(lambda: defaultdict(int))
+    trnathreetfcounts = defaultdict(lambda: defaultdict(int))
     trnafivehalfcounts = defaultdict(lambda: defaultdict(int))
     trnathreehalfcounts = defaultdict(lambda: defaultdict(int))
     trnatrailercounts  = defaultdict(lambda: defaultdict(int))
@@ -982,13 +982,13 @@ def oldmain(**argdict):
                             if fragtype == "Whole":
                                 
                                 trnawholecounts[currsample][currbed] += 1
-                            elif fragtype == "Fiveprime-rf":
+                            elif fragtype == "Fiveprimetf":
                                 trnafiverfcounts[currsample][currbed] += 1
-                            elif fragtype == "Threeprime-rf":
+                            elif fragtype == "Threeprimetf":
                                 trnathreerfcounts[currsample][currbed] += 1
-                            elif fragtype == "Fiveprime-half":
+                            elif fragtype == "Fiveprimehalf":
                                 trnafivehalfcounts[currsample][currbed] += 1
-                            elif fragtype == "Threeprime-half":
+                            elif fragtype == "Threeprimehalf":
                                 trnathreehalfcounts[currsample][currbed] += 1
                             elif fragtype == "Trailer":
                                 trnatrailercounts[currsample][currbed] += 1
@@ -1066,11 +1066,11 @@ def oldmain(**argdict):
                 #sumsamples(trnafivecounts,sampledata,currrep, currfeat)
                 
                 print  >>countfile, "tRNA_wholecounts\t"+"\t".join(str(sumsamples(trnawholecounts,sampledata,currrep, currbed, sizefactors = sizefactor)) for currrep in replicates)
-                print  >>countfile, "tRNA_fiveprimerf\t"+"\t".join(str(sumsamples(trnafiverfcounts,sampledata,currrep, currbed, sizefactors = sizefactor)) for currrep in replicates)
-                print  >>countfile, "tRNA_threeprimerf\t"+"\t".join(str(sumsamples(trnathreerfcounts,sampledata,currrep, currbed, sizefactors = sizefactor)) for currrep in replicates)
+                print  >>countfile, "tRNA_fiveprimetf\t"+"\t".join(str(sumsamples(trnafivetfcounts,sampledata,currrep, currbed, sizefactors = sizefactor)) for currrep in replicates)
+                print  >>countfile, "tRNA_threeprimetf\t"+"\t".join(str(sumsamples(trnathreetfcounts,sampledata,currrep, currbed, sizefactors = sizefactor)) for currrep in replicates)
                 print  >>countfile, "tRNA_fiveprimehalf\t"+"\t".join(str(sumsamples(trnafivehalfcounts,sampledata,currrep, currbed, sizefactors = sizefactor)) for currrep in replicates)
                 print  >>countfile, "tRNA_threeprimehalf\t"+"\t".join(str(sumsamples(trnathreehalfcounts,sampledata,currrep, currbed, sizefactors = sizefactor)) for currrep in replicates)
-                print  >>countfile, "tRNA_other\t"+"\t".join(str(sumsamples(trnacounts,sampledata,currrep, currbed, sizefactors = sizefactor) - (sumsamples(trnafiverfcounts,sampledata,currrep, currbed, sizefactors = sizefactor) + sumsamples(trnathreerfcounts,sampledata,currrep, currbed, sizefactors = sizefactor) + sumsamples(trnafivehalfcounts,sampledata,currrep, currbed, sizefactors = sizefactor) + sumsamples(trnathreehalfcounts,sampledata,currrep, currbed, sizefactors = sizefactor) =sumsamples(trnawholecounts,sampledata,currrep, currbed, sizefactors = sizefactor))) for currrep in replicates)
+                print  >>countfile, "tRNA_other\t"+"\t".join(str(sumsamples(trnacounts,sampledata,currrep, currbed, sizefactors = sizefactor) - (sumsamples(trnafivetfcounts,sampledata,currrep, currbed, sizefactors = sizefactor) + sumsamples(trnathreetfcounts,sampledata,currrep, currbed, sizefactors = sizefactor) + sumsamples(trnafivehalfcounts,sampledata,currrep, currbed, sizefactors = sizefactor) + sumsamples(trnathreehalfcounts,sampledata,currrep, currbed, sizefactors = sizefactor) =sumsamples(trnawholecounts,sampledata,currrep, currbed, sizefactors = sizefactor))) for currrep in replicates)
                 print  >>countfile, "tRNA_antisense\t"+"\t".join(str(sumsamples(trnaantisense,sampledata,currrep, currbed, sizefactors = sizefactor)) for currrep in replicates)
             else:
                 
@@ -1097,11 +1097,11 @@ def oldmain(**argdict):
             
             if countfrags:
                 print  >>countfile, "tRNA_wholecounts\t"+"\t".join(str(trnawholecounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
-                print  >>countfile, "tRNA_fiveprimerf\t"+"\t".join(str(trnafiverfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
-                print  >>countfile, "tRNA_threeprimerf\t"+"\t".join(str(trnathreerfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
+                print  >>countfile, "tRNA_fiveprimetf\t"+"\t".join(str(trnafivetfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
+                print  >>countfile, "tRNA_threeprimetf\t"+"\t".join(str(trnathreetfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
                 print  >>countfile, "tRNA_fiveprimehalf\t"+"\t".join(str(trnafivehalfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
                 print  >>countfile, "tRNA_threeprimehalf\t"+"\t".join(str(trnathreehalfcounts[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
-                print  >>countfile, "tRNA_other\t"+"\t".join(str((trnacounts[currsample][currbed] - (trnathreerfcounts[currsample][currbed] + trnafiverfcounts[currsample][currbed] + trnathreehalfcounts[currsample][currbed] + trnafivehalfcounts[currsample][currbed] + trnawholecounts[currsample][currbed]))/sizefactor[currsample]) for currsample in samples)
+                print  >>countfile, "tRNA_other\t"+"\t".join(str((trnacounts[currsample][currbed] - (trnathreetfcounts[currsample][currbed] + trnafivetfcounts[currsample][currbed] + trnathreehalfcounts[currsample][currbed] + trnafivehalfcounts[currsample][currbed] + trnawholecounts[currsample][currbed]))/sizefactor[currsample]) for currsample in samples)
                 print  >>countfile, "tRNA_antisense\t"+"\t".join(str(trnaantisense[currsample][currbed]/sizefactor[currsample]) for currsample in samples)
 
                 
@@ -1128,11 +1128,11 @@ def oldmain(**argdict):
             
             if countfrags:
                 print  >>realcountfile, "tRNA_wholecounts\t"+"\t".join(str(trnawholecounts[currsample][currbed]) for currsample in samples)
-                print  >>realcountfile, "tRNA_fiveprimerf\t"+"\t".join(str(trnafiverfcounts[currsample][currbed]) for currsample in samples)
-                print  >>realcountfile, "tRNA_threeprimerf\t"+"\t".join(str(trnathreerfcounts[currsample][currbed]) for currsample in samples)
+                print  >>realcountfile, "tRNA_fiveprimetf\t"+"\t".join(str(trnafiverfcounts[currsample][currbed]) for currsample in samples)
+                print  >>realcountfile, "tRNA_threeprimetf\t"+"\t".join(str(trnathreerfcounts[currsample][currbed]) for currsample in samples)
                 print  >>realcountfile, "tRNA_fiveprimehalf\t"+"\t".join(str(trnafivehalfcounts[currsample][currbed]) for currsample in samples)
                 print  >>realcountfile, "tRNA_threeprimehalf\t"+"\t".join(str(trnathreehalfcounts[currsample][currbed]) for currsample in samples)
-                print  >>realcountfile, "tRNA_other\t"+"\t".join(str((trnacounts[currsample][currbed] - (trnathreerfcounts[currsample][currbed] + trnafiverfcounts[currsample][currbed] + trnathreehalfcounts[currsample][currbed] + trnafivehalfcounts[currsample][currbed] + trnawholecounts[currsample][currbed]))) for currsample in samples)
+                print  >>realcountfile, "tRNA_other\t"+"\t".join(str((trnacounts[currsample][currbed] - (trnathreetfcounts[currsample][currbed] + trnafivetfcounts[currsample][currbed] + trnathreehalfcounts[currsample][currbed] + trnafivehalfcounts[currsample][currbed] + trnawholecounts[currsample][currbed]))) for currsample in samples)
                 print  >>realcountfile, "tRNA_antisense\t"+"\t".join(str(trnaantisense[currsample][currbed]) for currsample in samples)
 
                 
