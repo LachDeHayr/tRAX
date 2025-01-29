@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# Supported genomes
-GENOMES=("hg19" "hg38" "rn6" "mm10" "sacCer3" "hg19mito" "hg38mito" "mm10mito")
+# Supported genomes GENOMES=("hg19" "hg38" "rn6" "mm10" "sacCer3" "hg19mito" "hg38mito" "mm10mito" "aedAeg5")
 
 # Help function
 function print_usage() {
@@ -62,6 +61,13 @@ function db_builder() {
       gtRNAdb_NAME="sacCer3-tRNAs_name_map.txt"
       GENOME_URL="https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.2bit"
       FASTA=false
+ elif test "${1}" = "aedAeg5"; then
+    GTF_URL="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/204/515/GCF_002204515.2_AaegL5.0/GCF_002204515.2_AaegL5.0_genomic.gtf.gz"
+    gtRNAdb_URL="https://gtrnadb.ucsc.edu/GtRNAdb2/genomes/eukaryota/Aaegy5/aedAeg5-tRNAs.tar.gz"
+    gtRNAdb_OUT="aedAeg5-tRNAs-detailed.out"
+    gtRNAdb_NAME="aedAeg5-tRNAs_name_map.txt"
+    GENOME_URL="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/204/515/GCF_002204515.2_AaegL5.0/GCF_002204515.2_AaegL5.0_genomic.fna.gz"
+    FASTA=true     
   elif test "${1}" = "hg19mito"
   then
        GTF_URL="ftp://ftp.ensembl.org/pub/grch37/current/gtf/homo_sapiens/Homo_sapiens.GRCh37.87.gtf.gz"
