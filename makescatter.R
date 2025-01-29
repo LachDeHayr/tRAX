@@ -59,7 +59,7 @@ colnames(counts)[3] <- "chrom"
 colnames(counts)[4] <- "readsize"
 
 
-genetypes = c("trna_fiveprime","trna_threeprime","trna_fiveprimehalf","trna_threeprimehalf","trna_other","trna_wholecounts","tRNA","snoRNA","miRNA","Mt_tRNA","rRNA","Mt_rRNA","snRNA")
+genetypes = c("trna_fiveprimetf","trna_threeprimetf","trna_fiveprimehalf","trna_threeprimehalf","trna_other","trna_wholecounts","tRNA","snoRNA","miRNA","Mt_tRNA","rRNA","Mt_rRNA","snRNA")
 othertypes = !(counts[,"type"] %in% genetypes)
 
 
@@ -77,8 +77,8 @@ genetypes
 #print(unique(as.character(counts[,"type"])))
 counts[,"type"] <- factor(counts[,"type"], levels = c(genetypes,"other",othertypenames))
 #print(unique(as.character(counts[,"type"])))
-trnatypes <- c("trna_fiveprime","trna_threeprime","trna_other","trna_wholecounts","tRNA")
-fragtypes <- c("trna_fiveprime","trna_threeprime","trna_other","trna_wholecounts")
+trnatypes <- c("trna_fiveprimetf","trna_threeprimetf","trna_fiveprimehalf","trna_threeprimehalf","trna_other","trna_wholecounts","tRNA")
+fragtypes <- c("trna_fiveprimetf","trna_threeprimetf","trna_fiveprimehalf","trna_threeprimehalf","trna_other","trna_wholecounts")
                                                                                                                                                        
 #print(unique(as.character(counts[,"type"])))
 trnagenes =  counts[,"type"] %in% trnatypes
@@ -141,7 +141,7 @@ aminoletters[is.na(aminoletters)] <- "X"
 aminoletters <-  unlist(lapply(aminoletters, utf8ToInt))
 
 
-trnacounts$fragtype <- mapvalues(trnacounts$fragtype, from = c("trna_threeprime", "trna_fiveprime", "trna_other", "trna_wholecounts"), to = c("Three-prime fragments","Five-prime fragments","Other fragments","Whole tRNAs"))
+trnacounts$fragtype <- mapvalues(trnacounts$fragtype, from = c("trna_fiveprimetf","trna_threeprimetf","trna_fiveprimehalf","trna_threeprimehalf", "trna_other", "trna_wholecounts"), to = c("Five-prime fragments","Three-prime fragments","Five-prime half", "Three-prime half","Other fragments","Whole tRNAs"))
 #remove non-tRNAs
 typepal <- c(
   "other" = "#f2dab2",
