@@ -59,7 +59,7 @@ colnames(counts)[3] <- "chrom"
 colnames(counts)[4] <- "readsize"
 
 
-genetypes = c("trna_fiveprime","trna_threeprime","trna_other","trna_wholecounts","tRNA","snoRNA","miRNA","Mt_tRNA","rRNA","Mt_rRNA","snRNA")
+genetypes = c("trna_fiveprime","trna_threeprime","trna_fiveprimehalf","trna_threeprimehalf","trna_other","trna_wholecounts","tRNA","snoRNA","miRNA","Mt_tRNA","rRNA","Mt_rRNA","snRNA")
 othertypes = !(counts[,"type"] %in% genetypes)
 
 
