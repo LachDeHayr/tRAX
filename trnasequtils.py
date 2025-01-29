@@ -637,27 +637,27 @@ Still need to add trailer fragment code, both here and elsewhere
 def getfragtype(currfeat, currread, maxoffset = 10):
     if currread.start < currfeat.start + maxoffset and currread.end > currfeat.end - maxoffset:
         return "Whole"
-    elif currread.start < currfeat.start + maxoffset: # and currread.end - currread.start < 20     
+    elif currread.start < currfeat.start + maxoffset and currread.end - currread.start < 20 :"    
         if currfeat.strand == "+":
             return "Fiveprime-rF"
         else:
             return "Threeprime-rF"
-    #elif currread.start < currfeat.start + maxoffset and currread.end - currread.start >= 20: 
-           #if currfeat.strand == "+":
-            #return "Fiveprime-half"
-        #else:
-            #return "Threeprime-half"
+    elif currread.start < currfeat.start + maxoffset and currread.end - currread.start >= 20: 
+           if currfeat.strand == "+":
+            return "Fiveprime-half"
+        else:
+            return "Threeprime-half"
     
-    elif currread.end > currfeat.end - maxoffset: # and currread.end - currread.start < 20
+    elif currread.end > currfeat.end - maxoffset and currread.end - currread.start < 20:
         if currfeat.strand == "+":
             return "Threeprime-rf"
         else:
             return "Fiveprime-rf"
-    #elif currread.end > currfeat.end - maxoffset: and currread.end - currread.start >= 20: 
-           #if currfeat.strand == "+":
-            #return "Threeprime-half"
-        #else:
-            #return "Fiveprime-half"
+    elif currread.end > currfeat.end - maxoffset: and currread.end - currread.start >= 20: 
+           if currfeat.strand == "+":
+            return "Threeprime-half"
+        else:
+            return "Fiveprime-half"
     
 def getendtype(currfeat, currread, maxoffset = 10):
     endtype = None
