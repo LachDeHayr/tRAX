@@ -36,8 +36,10 @@ class featurecount:
         self.trnacounts = defaultdict(int)
         self.antitrnacount = defaultdict(int)
         self.trnawholecounts = defaultdict(int)
-        self.trnafivecounts = defaultdict(int)
-        self.trnathreecounts = defaultdict(int)
+        self.trnafivetfcounts = defaultdict(int)
+        self.trnathreetfcounts = defaultdict(int)
+        self.trnafivehalfcounts = defaultdict(int)
+        self.trnathreehalfcounts = defaultdict(int)
         self.trnalocuscounts = defaultdict(int)
         self.trnalocustrailercounts = defaultdict(int)
         self.partialtrnalocuscounts = defaultdict(int)
@@ -80,9 +82,13 @@ class featurecount:
     def addfragcount(self, featname, fragtype):    
         if fragtype == "Whole":
             self.trnawholecounts[featname] += 1
-        elif fragtype == "Fiveprime":
+        elif fragtype == "Fiveprimetf":
             self.trnafivecounts[featname] += 1
-        elif fragtype == "Threeprime":
+        elif fragtype == "Threeprimetf":
+            self.trnathreecounts[featname] += 1
+        elif fragtype == "Fiveprimehalf":
+            self.trnafivecounts[featname] += 1
+        elif fragtype == "Threeprimehalf":
             self.trnathreecounts[featname] += 1
     def addendcount(self, featname, endtype):    
         if endtype is not None:
@@ -118,10 +124,14 @@ class featurecount:
     def getanticodoncount(self, anticodon):
        return self.anticodoncounts[anticodon]
 
-    def getfivecount(self, genename):
-       return self.trnafivecounts[genename]
-    def getthreecount(self, genename):
-       return self.trnathreecounts[genename]
+    def getfivetfcount(self, genename):
+       return self.trnafivetfcounts[genename]
+    def getthreetfcount(self, genename):
+       return self.trnathreetfcounts[genename]
+    def getfivehalfcount(self, genename):
+       return self.trnafivehalfcounts[genename]
+    def getthreehalfcount(self, genename):
+       return self.trnathreehalfcounts[genename]
     def getwholecount(self, genename):
        return self.trnawholecounts[genename]
     def getendtypecount(self, genename):
@@ -298,9 +308,11 @@ def printcountfile(countfile, samples,  samplecounts, trnalist, trnaloci, featur
 
         else:
             print >>countfile, currfeat.name+"_wholecounts\t"+"\t".join(str(samplecounts[currsample].getwholecount(currfeat.name)) for currsample in samples)
-            print >>countfile, currfeat.name+"_fiveprime\t"+"\t".join(str(samplecounts[currsample].getfivecount(currfeat.name) ) for currsample in samples)
-            print >>countfile, currfeat.name+"_threeprime\t"+"\t".join(str(samplecounts[currsample].getthreecount(currfeat.name)) for currsample in samples)
-            print >>countfile, currfeat.name+"_other\t"+"\t".join(str(samplecounts[currsample].gettrnacount(currfeat.name) - (samplecounts[currsample].getwholecount(currfeat.name) + samplecounts[currsample].getfivecount(currfeat.name) + samplecounts[currsample].getthreecount(currfeat.name))) for currsample in samples)
+            print >>countfile, currfeat.name+"_fiveprimetf\t"+"\t".join(str(samplecounts[currsample].getfivetfcount(currfeat.name) ) for currsample in samples)
+            print >>countfile, currfeat.name+"_threeprimetf\t"+"\t".join(str(samplecounts[currsample].getthreetfcount(currfeat.name)) for currsample in samples)
+            print >>countfile, currfeat.name+"_fiveprimehalf\t"+"\t".join(str(samplecounts[currsample].getfivehalfcount(currfeat.name) ) for currsample in samples)
+            print >>countfile, currfeat.name+"_threeprimehalf\t"+"\t".join(str(samplecounts[currsample].getthreehalfcount(currfeat.name)) for currsample in samples)
+            print >>countfile, currfeat.name+"_other\t"+"\t".join(str(samplecounts[currsample].gettrnacount(currfeat.name) - (samplecounts[currsample].getwholecount(currfeat.name) + samplecounts[currsample].getfivetfcount(currfeat.name) + samplecounts[currsample].getthreetfcount(currfeat.name) + samplecounts[currsample].getfivehalfcount(currfeat.name) + samplecounts[currsample].getthreehalfcount(currfeat.name))) for currsample in samples)
             
 
             print >>countfile, currfeat.name+"_antisense\t"+"\t".join(str(samplecounts[currsample].getantitrnacount(currfeat.name)) for currsample in samples)
@@ -371,8 +383,10 @@ def printtypefile(genetypeout,samples, allcounts,trnalist, trnaloci, featurelist
         print >>genetypeout, currfeat.name+""+"\t"+"tRNA_locus"+"\t"+currfeat.chrom+"\t"+averagesamples(allcounts, currfeat.name, samples)
     for currfeat in trnalist:
         print >>genetypeout, currfeat.name+"_wholecounts"+"\t"+"trna_wholecounts"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
-        print >>genetypeout, currfeat.name+"_fiveprime"+"\t"+"trna_fiveprime"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
-        print >>genetypeout, currfeat.name+"_threeprime"+"\t"+"trna_threeprime"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
+        print >>genetypeout, currfeat.name+"_fiveprimetf"+"\t"+"trna_fiveprimetf"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
+        print >>genetypeout, currfeat.name+"_threeprimetf"+"\t"+"trna_threeprimetf"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
+        print >>genetypeout, currfeat.name+"_fiveprimehalf"+"\t"+"trna_fiveprimehalf"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
+        print >>genetypeout, currfeat.name+"_threeprimehalf"+"\t"+"trna_threeprimehalf"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
         print >>genetypeout, currfeat.name+"_other"+"\t"+"trna_other"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
         print >>genetypeout, currfeat.name+"_antisense"+"\t"+"trna_antisense"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
         print >>genetypeout, currfeat.name+""+"\t"+"tRNA"+"\t"+"tRNA"+"\t"+averagesamples(allcounts, currfeat.name, samples)
@@ -651,8 +665,10 @@ def oldmain(**argdict):
     trnainfo = transcriptfile(trnatable)
     
     wholetrnas = dict()
-    fivefrags = dict()
-    threefrags = dict()
+    fivetffrags = dict()
+    threetffrags = dict()
+    fivehalffrags = dict()
+    threehalffrags = dict()
     trailerfrags = dict()
     otherfrags = dict()
     allfrags = dict()
@@ -704,8 +720,10 @@ def oldmain(**argdict):
     counts = defaultdict(lambda: defaultdict(int))
     trnacounts = defaultdict(lambda: defaultdict(int))
     trnawholecounts = defaultdict(lambda: defaultdict(int))
-    trnafivecounts = defaultdict(lambda: defaultdict(int))
-    trnathreecounts = defaultdict(lambda: defaultdict(int))
+    trnafivetfcounts = defaultdict(lambda: defaultdict(int))
+    trnathreetfcounts = defaultdict(lambda: defaultdict(int))
+    trnafivehalfcounts = defaultdict(lambda: defaultdict(int))
+    trnathreehalfcounts = defaultdict(lambda: defaultdict(int))
     trnalocuscounts = defaultdict(lambda: defaultdict(int))
     trnalocustrailercounts = defaultdict(lambda: defaultdict(int))
     partialtrnalocuscounts = defaultdict(lambda: defaultdict(int))
@@ -800,10 +818,14 @@ def oldmain(**argdict):
 
                 if fragtype == "Whole":
                     trnawholecounts[currsample][currfeat.name] += 1
-                elif fragtype == "Fiveprime":
-                    trnafivecounts[currsample][currfeat.name] += 1
-                elif fragtype == "Threeprime":
-                    trnathreecounts[currsample][currfeat.name] += 1
+                elif fragtype == "Fiveprimetf":
+                    trnafivetfcounts[currsample][currfeat.name] += 1
+                elif fragtype == "Threeprimetf":
+                    trnathreetfcounts[currsample][currfeat.name] += 1
+                elif fragtype == "Fiveprimehalf":
+                    trnafivehalfcounts[currsample][currfeat.name] += 1
+                elif fragtype == "Threeprimehalf":
+                    trnathreehalfcounts[currsample][currfeat.name] += 1
                 if isuniqueaminomapping(currread):
                     trnauniquecounts[currsample][currfeat.name] += 1
                 if not isuniqueaminomapping(currread):
@@ -826,9 +848,11 @@ def oldmain(**argdict):
             print >>countfile, currfeat.name+"\t"+"\t".join(str(trnacounts[currsample][currfeat.name]) for currsample in samples)
         else:
             print >>countfile, currfeat.name+"_wholecounts\t"+"\t".join(str(trnawholecounts[currsample][currfeat.name]) for currsample in samples)
-            print >>countfile, currfeat.name+"_fiveprime\t"+"\t".join(str(trnafivecounts[currsample][currfeat.name]) for currsample in samples)
-            print >>countfile, currfeat.name+"_threeprime\t"+"\t".join(str(trnathreecounts[currsample][currfeat.name]) for currsample in samples)
-            print >>countfile, currfeat.name+"_other\t"+"\t".join(str(trnacounts[currsample][currfeat.name] - (trnathreecounts[currsample][currfeat.name] + trnafivecounts[currsample][currfeat.name] + trnawholecounts[currsample][currfeat.name])) for currsample in samples)
+            print >>countfile, currfeat.name+"_fiveprimetf\t"+"\t".join(str(trnafivetfcounts[currsample][currfeat.name]) for currsample in samples)
+            print >>countfile, currfeat.name+"_threeprimetf\t"+"\t".join(str(trnathreetfcounts[currsample][currfeat.name]) for currsample in samples)
+            print >>countfile, currfeat.name+"_fiveprimehalf\t"+"\t".join(str(trnafivehalfcounts[currsample][currfeat.name]) for currsample in samples)
+            print >>countfile, currfeat.name+"_threeprimehalf\t"+"\t".join(str(trnathreehalfcounts[currsample][currfeat.name]) for currsample in samples)
+            print >>countfile, currfeat.name+"_other\t"+"\t".join(str(trnacounts[currsample][currfeat.name] - (trnathreetfcounts[currsample][currfeat.name] + trnafivetfcounts[currsample][currfeat.name] +(trnathreehalfcounts[currsample][currfeat.name] + trnafivehalfcounts[currsample][currfeat.name] + trnawholecounts[currsample][currfeat.name])) for currsample in samples)
         
         
     
@@ -868,8 +892,10 @@ def oldmain(**argdict):
             print >>genetypeout, currfeat.name+""+"\t"+"tRNA_locus"
         for currfeat in trnalist:
             print >>genetypeout, currfeat.name+"_wholecounts"+"\t"+"trna_wholecounts"
-            print >>genetypeout, currfeat.name+"_fiveprime"+"\t"+"trna_fiveprime"
-            print >>genetypeout, currfeat.name+"_threeprime"+"\t"+"trna_threeprime"
+            print >>genetypeout, currfeat.name+"_fiveprimetf"+"\t"+"trna_fiveprimetf"
+            print >>genetypeout, currfeat.name+"_threeprimetf"+"\t"+"trna_threeprimetf"
+            print >>genetypeout, currfeat.name+"_fiveprimehalf"+"\t"+"trna_fiveprimehalf"
+            print >>genetypeout, currfeat.name+"_threeprimehalf"+"\t"+"trna_threeprimehalf"
             print >>genetypeout, currfeat.name+"_other"+"\t"+"trna_other"
             print >>genetypeout, currfeat.name+""+"\t"+"tRNA"
     
