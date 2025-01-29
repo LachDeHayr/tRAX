@@ -639,25 +639,25 @@ def getfragtype(currfeat, currread, maxoffset = 10):
         return "Whole"
     elif currread.start < currfeat.start + maxoffset and currread.end - currread.start < 20 :"    
         if currfeat.strand == "+":
-            return "Fiveprime-rF"
+            return "FiveprimetF"
         else:
-            return "Threeprime-rF"
+            return "ThreeprimetF"
     elif currread.start < currfeat.start + maxoffset and currread.end - currread.start >= 20: 
            if currfeat.strand == "+":
-            return "Fiveprime-half"
+            return "Fiveprimehalf"
         else:
-            return "Threeprime-half"
+            return "Threeprimehalf"
     
     elif currread.end > currfeat.end - maxoffset and currread.end - currread.start < 20:
         if currfeat.strand == "+":
-            return "Threeprime-rf"
+            return "Threeprimetf"
         else:
-            return "Fiveprime-rf"
+            return "Fiveprimetf"
     elif currread.end > currfeat.end - maxoffset: and currread.end - currread.start >= 20: 
            if currfeat.strand == "+":
-            return "Threeprime-half"
+            return "Threeprimehalf"
         else:
-            return "Fiveprime-half"
+            return "Fiveprimehalf"
     
 def getendtype(currfeat, currread, maxoffset = 10):
     endtype = None
